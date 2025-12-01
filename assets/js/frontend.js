@@ -17,7 +17,7 @@
     const root = document.createElement("div");
     root.className =
       "cac-widget-root cac-position-" + (settings.position || "right");
-    root.style.top = (settings.vertical_offset || 120) + "px";
+    root.style.bottom = (settings.vertical_offset || 120) + "px";
 
     // Collapsed floating button
     const collapsed = document.createElement("div");

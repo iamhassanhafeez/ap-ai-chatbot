@@ -166,7 +166,7 @@ class CAC_AI_Chatbot {
 			esc_attr( self::OPTION_KEY ),
 			$val
 		);
-		echo '<p class="description">' . esc_html__( 'px offset from top', 'cac-ai-chat' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'px offset from bottom', 'cac-ai-chat' ) . '</p>';
 	}
 
 	public function field_avatar_collapsed() {
