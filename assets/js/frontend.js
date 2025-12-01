@@ -17,7 +17,10 @@
     const root = document.createElement("div");
     root.className =
       "cac-widget-root cac-position-" + (settings.position || "right");
-    root.style.bottom = (settings.vertical_offset || 120) + "px";
+    // Bottom offset is now handled via CSS with dynamic override if custom offset provided
+    if (settings.vertical_offset && settings.vertical_offset !== 120) {
+      root.style.bottom = settings.vertical_offset + "px";
+    }
 
     // Collapsed floating button
     const collapsed = document.createElement("div");

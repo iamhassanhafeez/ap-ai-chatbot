@@ -1,21 +1,21 @@
-/* Minimal, modern style - keep customizable via user CSS if desired */
+/* AI Chatbot Widget - Modern Minimal Design */
 .cac-widget-root {
   position: fixed;
   z-index: 999999;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
     Arial;
   transition: all 0.18s ease;
+  bottom: 24px;
 }
 
-/* Positions */
 .cac-position-right {
   right: 24px;
 }
+
 .cac-position-left {
   left: 24px;
 }
 
-/* Collapsed bar */
 .cac-collapsed {
   display: flex;
   align-items: center;
@@ -24,7 +24,6 @@
   cursor: pointer;
 }
 
-/* Avatar circle */
 .cac-avatar {
   width: 44px;
   height: 44px;
@@ -34,7 +33,6 @@
   box-shadow: 0 6px 18px rgba(20, 30, 40, 0.12);
 }
 
-/* fallback gradient avatar */
 .cac-fallback-gradient {
   background: radial-gradient(
     circle at 30% 20%,
@@ -44,7 +42,6 @@
   );
 }
 
-/* Talk button (pill) */
 .cac-talk-btn {
   background: #000;
   color: #fff;
@@ -57,14 +54,18 @@
   gap: 8px;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-/* Expanded card: show above the collapsed button (anchored from bottom) */
+.cac-talk-btn:hover {
+  box-shadow: 0 8px 28px rgba(10, 10, 10, 0.15);
+  transform: translateY(-2px);
+}
+
 .cac-expanded {
   position: absolute;
   width: 320px;
   right: 0;
-  /* place expanded card above the collapsed avatar */
   bottom: calc(100% + 10px);
   transform-origin: bottom right;
   opacity: 0;
@@ -72,13 +73,13 @@
   pointer-events: none;
   transition: all 0.18s ease;
 }
+
 .cac-position-left .cac-expanded {
   left: 0;
   right: auto;
   transform-origin: bottom left;
 }
 
-/* When open */
 .cac-open .cac-expanded {
   opacity: 1;
   visibility: visible;
@@ -86,7 +87,6 @@
   transform: translateY(0);
 }
 
-/* card inner */
 .cac-expanded-inner {
   background: #fff;
   border-radius: 18px;
@@ -98,39 +98,52 @@
   gap: 12px;
 }
 
-/* header */
 .cac-header {
   display: flex;
   align-items: center;
   gap: 12px;
+  position: relative;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0f0f0;
 }
+
 .cac-header-avatar {
-  width: 120px;
-  height: 120px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background-size: cover;
   background-position: center;
-  margin: 0 auto;
-  box-shadow: 0 12px 36px rgba(10, 20, 30, 0.08);
+  box-shadow: 0 4px 12px rgba(10, 20, 30, 0.08);
+  flex-shrink: 0;
 }
+
 .cac-header-title {
-  position: absolute;
-  left: 18px;
-  top: 8px;
   font-weight: 700;
   color: #111;
+  flex: 1;
+  font-size: 16px;
 }
+
 .cac-close {
   position: absolute;
-  right: 16px;
-  top: 12px;
+  right: 0;
+  top: 0;
   background: transparent;
   border: none;
   font-size: 18px;
   cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  transition: color 0.2s ease;
 }
 
-/* messages */
+.cac-close:hover {
+  color: #000;
+}
+
 .cac-messages {
   min-height: 140px;
   max-height: 300px;
@@ -141,19 +154,21 @@
   padding: 6px;
 }
 
-/* message bubbles */
 .cac-message {
   padding: 10px 12px;
   border-radius: 14px;
   max-width: 80%;
   font-size: 14px;
   line-height: 1.3;
+  word-wrap: break-word;
 }
+
 .cac-bot {
   background: #f2f4f7;
   align-self: flex-start;
   color: #111;
 }
+
 .cac-user {
   background: #000;
   color: #fff;
@@ -163,13 +178,23 @@
 .cac-input {
   display: flex;
   gap: 8px;
+  margin-top: 4px;
 }
+
 .cac-input-field {
   flex: 1;
   padding: 10px 12px;
   border-radius: 12px;
   border: 1px solid #e6e9ee;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
 }
+
+.cac-input-field:focus {
+  outline: none;
+  border-color: #000;
+}
+
 .cac-send {
   padding: 10px 14px;
   border-radius: 12px;
@@ -177,20 +202,37 @@
   background: #111;
   color: #fff;
   cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
 }
 
-/* Loading */
+.cac-send:hover {
+  background: #333;
+}
+
 .cac-loading {
   opacity: 0.75;
 }
 
-/* Responsive adjustments */
 @media (max-width: 480px) {
   .cac-expanded-inner {
     width: calc(100vw - 40px);
   }
+
   .cac-header-avatar {
-    width: 90px;
-    height: 90px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .cac-widget-root {
+    left: 12px !important;
+    right: 12px !important;
+    bottom: 12px;
+  }
+
+  .cac-position-right,
+  .cac-position-left {
+    left: auto;
+    right: auto;
   }
 }

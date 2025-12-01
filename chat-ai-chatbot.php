@@ -66,80 +66,102 @@ class CAC_AI_Chatbot {
 	public function register_settings() {
 		register_setting( 'cac_ai_chat_group', self::OPTION_KEY, array( $this, 'sanitize_settings' ) );
 
-add_settings_field(
-	'enabled',
-	__( 'Enable Widget', 'cac-ai-chat' ),
-	array( $this, 'field_enabled' ),
-	'cac-ai-chat-settings',
-	'cac_main_section'
-);
+		// Add settings section
+		add_settings_section(
+			'cac_main_section',
+			__( 'Chatbot Widget Settings', 'cac-ai-chat' ),
+			array( $this, 'section_callback' ),
+			'cac-ai-chat-settings'
+		);
 
-add_settings_field(
-	'webhook_url',
-	__( 'Webhook URL', 'cac-ai-chat' ),
-	array( $this, 'field_webhook_url' ),
-	'cac-ai-chat-settings',
-	'cac_main_section'
-);
+		add_settings_field(
+			'enabled',
+			__( 'Enable Widget', 'cac-ai-chat' ),
+			array( $this, 'field_enabled' ),
+			'cac-ai-chat-settings',
+			'cac_main_section'
+		);
 
-add_settings_field(
-	'position',
-	__( 'Widget Position', 'cac-ai-chat' ),
-	array( $this, 'field_position' ),
-	'cac-ai-chat-settings',
-	'cac_main_section'
-);
+		add_settings_field(
+			'webhook_url',
+			__( 'Webhook URL', 'cac-ai-chat' ),
+			array( $this, 'field_webhook_url' ),
+			'cac-ai-chat-settings',
+			'cac_main_section'
+		);
 
-add_settings_field(
-	'vertical_offset',
-	__( 'Vertical Offset (px)', 'cac-ai-chat' ),
-	array( $this, 'field_vertical_offset' ),
-	'cac-ai-chat-settings',
-	'cac_main_section'
-);
+		add_settings_field(
+			'position',
+			__( 'Widget Position', 'cac-ai-chat' ),
+			array( $this, 'field_position' ),
+			'cac-ai-chat-settings',
+			'cac_main_section'
+		);
 
-add_settings_field(
-	'avatar_collapsed',
-	__( 'Collapsed Avatar', 'cac-ai-chat' ),
-	array( $this, 'field_avatar_collapsed' ),
-	'cac-ai-chat-settings',
-	'cac_main_section'
-);
+		add_settings_field(
+			'vertical_offset',
+			__( 'Vertical Offset (px)', 'cac-ai-chat' ),
+			array( $this, 'field_vertical_offset' ),
+			'cac-ai-chat-settings',
+			'cac_main_section'
+		);
 
-add_settings_field(
-	'avatar_expanded',
-	__( 'Expanded Avatar', 'cac-ai-chat' ),
-	array( $this, 'field_avatar_expanded' ),
-	'cac-ai-chat-settings',
-	'cac_main_section'
-);
+		add_settings_field(
+			'avatar_collapsed',
+			__( 'Collapsed Avatar', 'cac-ai-chat' ),
+			array( $this, 'field_avatar_collapsed' ),
+			'cac-ai-chat-settings',
+			'cac_main_section'
+		);
 
+		add_settings_field(
+			'avatar_expanded',
+			__( 'Expanded Avatar', 'cac-ai-chat' ),
+			array( $this, 'field_avatar_expanded' ),
+			'cac-ai-chat-settings',
+			'cac_main_section'
+		);
 	}
 
-public function sanitize_settings( $input ) {
-	$san = array();
-
-	// Enabled
-	$san['enabled'] = isset( $input['enabled'] ) && intval( $input['enabled'] ) === 1 ? 1 : 0;
-
-	if ( isset( $input['webhook_url'] ) ) {
-		$san['webhook_url'] = esc_url_raw( trim( $input['webhook_url'] ) );
+	public function section_callback() {
+		echo '<p>' . esc_html__( 'Configure your AI chatbot widget settings below.', 'cac-ai-chat' ) . '</p>';
 	}
 
-	$allowed_positions = array( 'right', 'left' );
-	$san['position'] = in_array( $input['position'] ?? 'right', $allowed_positions, true ) ? $input['position'] : 'right';
-
-	// vertical_offset now used as BOTTOM offset in px
-	$san['vertical_offset'] = intval( $input['vertical_offset'] ?? 120 );
-	if ( $san['vertical_offset'] < 0 ) {
-		$san['vertical_offset'] = 0;
+	public function field_enabled() {
+		$options = get_option( self::OPTION_KEY, array() );
+		$val = isset( $options['enabled'] ) && $options['enabled'] ? 1 : 0;
+		printf(
+			'<label><input type="checkbox" name="%1$s[enabled]" value="1" %2$s /> %3$s</label>',
+			esc_attr( self::OPTION_KEY ),
+			checked( 1, $val, false ),
+			esc_html__( 'Enable the floating chat widget (toggle on/off)', 'cac-ai-chat' )
+		);
 	}
 
-	$san['avatar_collapsed'] = isset( $input['avatar_collapsed'] ) ? esc_url_raw( $input['avatar_collapsed'] ) : '';
-	$san['avatar_expanded']  = isset( $input['avatar_expanded'] ) ? esc_url_raw( $input['avatar_expanded'] ) : '';
+	public function sanitize_settings( $input ) {
+		$san = array();
 
-	return $san;
-}
+		// Enabled
+		$san['enabled'] = isset( $input['enabled'] ) && intval( $input['enabled'] ) === 1 ? 1 : 0;
+
+		if ( isset( $input['webhook_url'] ) ) {
+			$san['webhook_url'] = esc_url_raw( trim( $input['webhook_url'] ) );
+		}
+
+		$allowed_positions = array( 'right', 'left' );
+		$san['position'] = in_array( $input['position'] ?? 'right', $allowed_positions, true ) ? $input['position'] : 'right';
+
+		// vertical_offset now used as BOTTOM offset in px
+		$san['vertical_offset'] = intval( $input['vertical_offset'] ?? 120 );
+		if ( $san['vertical_offset'] < 0 ) {
+			$san['vertical_offset'] = 0;
+		}
+
+		$san['avatar_collapsed'] = isset( $input['avatar_collapsed'] ) ? esc_url_raw( $input['avatar_collapsed'] ) : '';
+		$san['avatar_expanded']  = isset( $input['avatar_expanded'] ) ? esc_url_raw( $input['avatar_expanded'] ) : '';
+
+		return $san;
+	}
 
 
 	/* Settings fields callbacks */
@@ -225,30 +247,30 @@ public function sanitize_settings( $input ) {
 	/****************************
 	 * Assets
 	 ****************************/
-public function enqueue_frontend_assets() {
-	$options = get_option( self::OPTION_KEY, array() );
+	public function enqueue_frontend_assets() {
+		$options = get_option( self::OPTION_KEY, array() );
 
-	// Bail if widget disabled
-	if ( empty( $options['enabled'] ) || intval( $options['enabled'] ) !== 1 ) {
-		return;
+		// Bail if widget disabled
+		if ( empty( $options['enabled'] ) || intval( $options['enabled'] ) !== 1 ) {
+			return;
+		}
+
+		wp_enqueue_style( 'cac-frontend-css', CAC_PLUGIN_URL . 'assets/css/frontend.css', array(), '1.0.0' );
+		wp_enqueue_script( 'cac-frontend-js', CAC_PLUGIN_URL . 'assets/js/frontend.js', array(), '1.0.0', true );
+
+		$localized = array(
+			'rest_url' => esc_url_raw( rest_url( 'ai-chatbot/v1/message' ) ),
+			'nonce'    => wp_create_nonce( 'wp_rest' ),
+			'settings' => array(
+				'position'         => $options['position'] ?? 'right',
+				'vertical_offset'  => intval( $options['vertical_offset'] ?? 120 ),
+				'avatar_collapsed' => $options['avatar_collapsed'] ?? '',
+				'avatar_expanded'  => $options['avatar_expanded'] ?? '',
+			),
+		);
+
+		wp_localize_script( 'cac-frontend-js', 'CAC_CHAT', $localized );
 	}
-
-	wp_enqueue_style( 'cac-frontend-css', CAC_PLUGIN_URL . 'assets/css/frontend.css', array(), '1.0.0' );
-	wp_enqueue_script( 'cac-frontend-js', CAC_PLUGIN_URL . 'assets/js/frontend.js', array(), '1.0.0', true );
-
-	$localized = array(
-		'rest_url' => esc_url_raw( rest_url( 'ai-chatbot/v1/message' ) ),
-		'nonce'    => wp_create_nonce( 'wp_rest' ),
-		'settings' => array(
-			'position'         => $options['position'] ?? 'right',
-			'vertical_offset'  => intval( $options['vertical_offset'] ?? 120 ),
-			'avatar_collapsed' => $options['avatar_collapsed'] ?? '',
-			'avatar_expanded'  => $options['avatar_expanded'] ?? '',
-		),
-	);
-
-	wp_localize_script( 'cac-frontend-js', 'CAC_CHAT', $localized );
-}
 
 
 	public function enqueue_admin_assets( $hook ) {
@@ -327,18 +349,6 @@ public function enqueue_frontend_assets() {
 
 		return new WP_REST_Response( array( 'response' => $body ), $code );
 	}
-
-	public function field_enabled() {
-	$options = get_option( self::OPTION_KEY, array() );
-	$val = isset( $options['enabled'] ) && $options['enabled'] ? 1 : 0;
-	printf(
-		'<label><input type="checkbox" name="%1$s[enabled]" value="1" %2$s /> %3$s</label>',
-		esc_attr( self::OPTION_KEY ),
-		checked( 1, $val, false ),
-		esc_html__( 'Enable the floating chat widget (toggle on/off)', 'cac-ai-chat' )
-	);
-}
-
 
 } // end class
 
