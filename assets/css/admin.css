@@ -1,0 +1,5 @@
+/* small admin tweaks for appearance */
+#cac_avatar_collapsed,
+#cac_avatar_expanded {
+  display: none;
+}
