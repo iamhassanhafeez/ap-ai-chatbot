@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Chat AI Chatbot (CAC)
- * Plugin URI:  https://your-domain.example.com/plugins/cac-ai-chatbot
+ * Plugin URI:  https://github.com/iamhassanhafeez/ap-ai-chatbot
  * Description: Floating AI Chatbot widget that proxies chat messages to a configured webhook.
  * Version:     1.0.0
  * Author:      Hassan "Cheeta" Hafeez
- * Author URI:  https://your-domain.example.com
+ * Author URI:  https://iamhassanhafeez.github.io/portfolio/
  * Text Domain: cac-ai-chat
  * Domain Path: /languages
  */
