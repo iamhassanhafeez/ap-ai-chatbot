@@ -59,17 +59,18 @@
   cursor: pointer;
 }
 
-/* Expanded card */
+/* Expanded card: show above the collapsed button (anchored from bottom) */
 .cac-expanded {
   position: absolute;
   width: 320px;
   right: 0;
+  /* place expanded card above the collapsed avatar */
+  bottom: calc(100% + 10px);
   transform-origin: bottom right;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition: all 0.18s ease;
-  margin-top: 10px;
 }
 .cac-position-left .cac-expanded {
   left: 0;
@@ -77,6 +78,7 @@
   transform-origin: bottom left;
 }
 
+/* When open */
 .cac-open .cac-expanded {
   opacity: 1;
   visibility: visible;
